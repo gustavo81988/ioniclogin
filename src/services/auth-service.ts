@@ -15,7 +15,6 @@ export class AuthService {
   idToken: string;
   refreshSubscription: any;
 
-
   constructor(
     private storage: Storage,
     private http: Http,
@@ -26,11 +25,9 @@ export class AuthService {
     this.storage.get('id_token').then(token => {
         this.idToken = token;
     });
-
   }
 
   register(userData: UserModel) {
-
     return this.http.post(this.cfg.apiUrl + this.cfg.user.register, userData)
       .toPromise()
       .then(data => {
@@ -131,7 +128,6 @@ export class AuthService {
   public startupTokenRefresh() {
     // If the user is authenticated, use the token stream
     // provided by angular2-jwt and flatMap the token
-
     this.storage.get("id_token").then((thetoken) => {
       if(thetoken) {
         let source = Observable.of(thetoken).flatMap(
@@ -145,7 +141,7 @@ export class AuthService {
           let delay: number = exp.valueOf() - now;
 
           if(delay <= 0) {
-          delay=1;
+            delay=1;
           }
           // Use the delay in a timer to
           // run the refresh at the proper time
@@ -161,8 +157,7 @@ export class AuthService {
         });
 
       }else {
-        //there is no user logined
-        console.info("there is no user logined ");
+        console.info("there is no logged user");
       }
     });
   }
